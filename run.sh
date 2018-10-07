@@ -8,6 +8,7 @@ docker run --rm \
 --user $(id -u):$(id -g) \
 gradle:4.10-jdk11 gradle build -x generateBotJooqSchemaSource --stacktrace
 
+docker-compose build
 docker-compose up
 
 

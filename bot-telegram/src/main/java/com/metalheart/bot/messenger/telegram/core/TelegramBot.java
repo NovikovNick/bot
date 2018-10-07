@@ -48,10 +48,15 @@ public class TelegramBot extends AbstractSessionBot {
                 String msg = update.getMessage().getText();
                for( Transition transion: flow.getAvailableTransitions()){
 
-                   if(msg.startsWith(transion.getName())){
 
 
+                   if(msg.equals("schedule_stop") || msg.equals("schedule_report")){
 
+                       flow.signal(new Signal(transion));
+                       break;
+
+
+                   } else if(msg.startsWith("schedule_log")){
                        flow.signal(new Signal(transion, Map.of("category", msg.split(":")[1].trim())));
                        break;
                    }
