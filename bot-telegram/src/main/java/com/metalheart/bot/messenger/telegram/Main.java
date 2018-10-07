@@ -20,18 +20,16 @@ public class Main {
     public static void main(String[] args) {
         try {
 
-            System.getProperties().put("proxySet", "true");
-            System.getProperties().put("socksProxyHost", "127.0.0.1");
-            System.getProperties().put("socksProxyPort", "9150");
 
+            log.info("Init telegram context");
             ApiContextInitializer.init();
 
-
-
+            log.info("Start Spring context");
             ApplicationContext ctx = SpringApplication.run(Main.class, args);
+
             new TelegramBotsApi().registerBot(ctx.getBean(TelegramBot.class));
 
-            log.info("ready");
+            log.info("Register bot. Ready for work.");
 
 
         } catch (Exception e) {

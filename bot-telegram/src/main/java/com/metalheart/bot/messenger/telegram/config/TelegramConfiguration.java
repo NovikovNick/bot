@@ -4,6 +4,7 @@ package com.metalheart.bot.messenger.telegram.config;
 import com.metalheart.bot.messenger.telegram.core.TelegramBot;
 import com.metalheart.bot.repository.config.RepositoryConfiguration;
 import com.metalheart.bot.service.config.ServiceConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
 
+@Slf4j
 @Configuration
 @ComponentScan(basePackages = {"com.metalheart.bot.messenger.telegram.action"})
 @Import({RepositoryConfiguration.class, ServiceConfiguration.class})
@@ -36,6 +38,10 @@ public class TelegramConfiguration {
         DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
 
         if (proxyType != null && proxyHost != null && proxyPort != 0) {
+
+
+            log.info("Use proxy {} {}:{}", proxyType, proxyHost, proxyPort);
+
             botOptions.setProxyType(DefaultBotOptions.ProxyType.valueOf(proxyType));
             botOptions.setProxyHost(proxyHost);
             botOptions.setProxyPort(proxyPort);
