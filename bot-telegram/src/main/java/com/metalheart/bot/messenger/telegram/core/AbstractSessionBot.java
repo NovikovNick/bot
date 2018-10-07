@@ -4,6 +4,7 @@ import com.metalheart.bot.model.Contact;
 import com.metalheart.bot.service.IContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.telegram.abilitybots.api.bot.AbilityBot;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,12 +13,10 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class AbstractSessionBot extends TelegramLongPollingBot {
+public abstract class AbstractSessionBot extends AbilityBot {
 
-    @Value("${telegram.bot.username}")
     private String botUsername;
 
-    @Value("${telegram.bot.token}")
     private String botToken;
 
     @Value("${telegram.bot.session.lifetime.minutes:30}")
@@ -28,8 +27,15 @@ public abstract class AbstractSessionBot extends TelegramLongPollingBot {
 
     private Map<Integer, TelegramSession> sessions;
 
-    public AbstractSessionBot(DefaultBotOptions options) {
-        super(options);
+    public AbstractSessionBot(String botUsername, String botToken, DefaultBotOptions options) {
+        super(botUsername, botToken, options);
+        this.botUsername = botUsername;
+        this.botToken = botToken;
+    }
+
+    @Override
+    public int creatorId() {
+        return 12345678;
     }
 
     @Override

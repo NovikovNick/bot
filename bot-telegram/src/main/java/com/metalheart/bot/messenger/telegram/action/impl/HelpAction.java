@@ -2,6 +2,7 @@ package com.metalheart.bot.messenger.telegram.action.impl;
 
 import com.metalheart.bot.messenger.telegram.BotCommand;
 import com.metalheart.bot.messenger.telegram.action.TelegramAction;
+import com.metalheart.bot.messenger.telegram.core.AbstractSessionBot;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -20,7 +21,7 @@ public class HelpAction implements TelegramAction {
 
 
     @Override
-    public void action(TelegramLongPollingBot bot, Update update) {
+    public void action(AbstractSessionBot bot, Update update) {
 
         SendMessage message = new SendMessage();
         message.enableMarkdown(true);

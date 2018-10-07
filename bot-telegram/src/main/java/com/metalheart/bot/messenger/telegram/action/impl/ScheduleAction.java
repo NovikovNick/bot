@@ -3,6 +3,7 @@ package com.metalheart.bot.messenger.telegram.action.impl;
 import com.metalheart.bot.flow.Flow;
 import com.metalheart.bot.flow.Transition;
 import com.metalheart.bot.messenger.telegram.action.TelegramAction;
+import com.metalheart.bot.messenger.telegram.core.AbstractSessionBot;
 import com.metalheart.bot.messenger.telegram.core.TelegramBot;
 import com.metalheart.bot.model.ActivityCategory;
 import com.metalheart.bot.model.Contact;
@@ -49,7 +50,7 @@ public class ScheduleAction implements TelegramAction {
     }
 
     @Override
-    public void action(TelegramLongPollingBot bot, Update update) {
+    public void action(AbstractSessionBot bot, Update update) {
 
 
         Long chatId = update.getMessage().getChatId();

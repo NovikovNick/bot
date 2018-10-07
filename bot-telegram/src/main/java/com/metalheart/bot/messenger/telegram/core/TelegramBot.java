@@ -21,8 +21,8 @@ public class TelegramBot extends AbstractSessionBot {
     private Map<String, TelegramAction> actionMap;
 
 
-    public TelegramBot(DefaultBotOptions options) {
-        super(options);
+    public TelegramBot(String botUsername, String botToken, DefaultBotOptions options) {
+        super(botUsername, botToken, options);
     }
 
     //todo: Context
@@ -40,28 +40,27 @@ public class TelegramBot extends AbstractSessionBot {
 
         TelegramSession session = getSession(update);
 
-        if(session.getData().containsKey("scheduler_flow") ){
+        if (session.getData().containsKey("scheduler_flow")) {
             Flow flow = (Flow) session.getData().get("scheduler_flow");
 
-            if(!flow.getCurrentState().equals(Flow.STATE_END)){
+            if (!flow.getCurrentState().equals(Flow.STATE_END)) {
 
                 String msg = update.getMessage().getText();
-               for( Transition transion: flow.getAvailableTransitions()){
+                for (Transition transition : flow.getAvailableTransitions()) {
 
 
+                    if (transition.getName().equals("schedule_stop") && msg.equals("schedule_stop")) {
+                        flow.signal(new Signal(transition));
+                        return;
+                    } else if (transition.getName().equals("schedule_report") && msg.equals("schedule_report")) {
+                        flow.signal(new Signal(transition));
+                        return;
+                    } else if (msg.startsWith("schedule_log")) {
+                        flow.signal(new Signal(transition, Map.of("category", msg.split(":")[1].trim())));
+                        return;
+                    }
 
-                   if(msg.equals("schedule_stop") || msg.equals("schedule_report")){
-
-                       flow.signal(new Signal(transion));
-                       break;
-
-
-                   } else if(msg.startsWith("schedule_log")){
-                       flow.signal(new Signal(transion, Map.of("category", msg.split(":")[1].trim())));
-                       break;
-                   }
-
-               }
+                }
 
             }
 
