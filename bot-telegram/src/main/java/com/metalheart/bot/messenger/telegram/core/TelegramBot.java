@@ -52,7 +52,7 @@ public class TelegramBot extends AbstractSessionBot {
 
 
 
-                       flow.signal(new Signal(transion, Map.of("category", transion.getName().split(":")[1].trim())));
+                       flow.signal(new Signal(transion, Map.of("category", msg.split(":")[1].trim())));
                        break;
                    }
 
