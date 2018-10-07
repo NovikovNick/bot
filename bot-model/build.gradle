@@ -1,0 +1,74 @@
+buildscript {
+    dependencies {
+        classpath group: 'org.postgresql', name: 'postgresql', version: "$postgresqlJDBCDriverVersion"
+        classpath group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+        classpath group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0'
+        classpath group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
+        classpath group: 'javax.activation', name: 'javax.activation-api', version: '1.2.0'
+    }
+}
+
+plugins {
+   // id 'nu.studer.jooq' version '3.0.2'
+    id "org.flywaydb.flyway" version "5.1.4"
+    id 'nu.studer.jooq' version '2.0.4'
+}
+
+
+dependencies {
+    jooqRuntime group: "org.postgresql", name: "postgresql", version:"$postgresqlJDBCDriverVersion"
+    jooqRuntime group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
+    jooqRuntime group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0'
+    jooqRuntime group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0'
+    jooqRuntime group: 'javax.activation', name: 'javax.activation-api', version: '1.2.0'
+
+    compile('org.flywaydb:flyway-core:4.0.3')
+    compile group: "org.postgresql", name: "postgresql", version:"$postgresqlJDBCDriverVersion"
+    compile("org.springframework.boot:spring-boot-starter-jooq:$springBootVersion")
+
+    compile group: "org.projectlombok", name: "lombok", version:"$lombokVersion"
+    compile group: "org.apache.commons", name: "commons-lang3", version:"$commonsLangVersion"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/generated/java']
+        }
+    }
+}
+
+jooq {
+    version = "$jooqVersion"
+    bot(sourceSets.main) {
+        jdbc {
+            driver = 'org.postgresql.Driver'
+            url = 'jdbc:postgresql://localhost:5432/docker'
+            user = 'docker'
+        }
+        generator {
+            name = 'org.jooq.util.DefaultGenerator'
+            strategy {
+                name = 'org.jooq.util.DefaultGeneratorStrategy'
+            }
+            database {
+                name = 'org.jooq.util.postgres.PostgresDatabase'
+                inputSchema = 'public'
+                includes = '.*'
+                excludes = 'service|profile|user|group'
+            }
+            generate {
+            }
+            target {
+                packageName = 'com.metalheart.bot.db'
+                directory = "${project.projectDir}/src/generated/java/"
+            }
+        }
+    }
+}
+
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/docker'
+    user = 'docker'
+}

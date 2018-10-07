@@ -1,0 +1,7 @@
+dependencies {
+    compile project(":bot-repository")
+    compile project(":bot-log")
+
+    compile("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
+
+}

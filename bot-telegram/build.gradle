@@ -1,0 +1,31 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion") }
+}
+
+apply plugin: 'org.springframework.boot'
+
+
+dependencies{
+
+    compile project(":bot-service")
+    compile project(":bot-log")
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: "$springBootVersion"
+    compile group: 'org.telegram', name: 'telegrambots', version: "$telegramApiVersion"
+
+    compile "org.telegram:telegrambots-abilities:$telegramApiVersion"
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: "$commonsLangVersion"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+libsDirName = './../../docker'
+
+bootJar {
+    archiveName = "app.jar"
+}
