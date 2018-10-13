@@ -21,6 +21,11 @@ dependencies{
 
     compile group: 'org.apache.commons', name: 'commons-lang3', version: "$commonsLangVersion"
 
+
+    compile group: "org.quartz-scheduler", name:"quartz" , version:"2.3.0"
+    compile "org.springframework:spring-tx:$springVersion"
+    compile "org.springframework:spring-context-support:$springVersion"
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 

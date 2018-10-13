@@ -3,6 +3,7 @@ package com.metalheart.bot.messenger.telegram;
 import com.metalheart.bot.messenger.telegram.action.TelegramAction;
 import com.metalheart.bot.messenger.telegram.action.impl.HelpAction;
 import com.metalheart.bot.messenger.telegram.action.impl.ScheduleAction;
+import com.metalheart.bot.messenger.telegram.action.impl.TicAction;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -10,6 +11,9 @@ import java.util.Optional;
 
 public enum BotCommand {
 
+
+
+    TIC("/tic", TicAction.class),
     SCHEDULE_START("/schedule_start", ScheduleAction.class),
 
     //SCHEDULE_STOP("/schedule_stop", ScheduleAction.class),

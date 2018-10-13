@@ -55,7 +55,7 @@ public abstract class AbstractSessionBot extends AbilityBot {
 
     public TelegramSession getSession(Update update) {
 
-        Integer contactId = update.getMessage().getFrom().getId();
+        Integer contactId = update.hasCallbackQuery() ? update.getCallbackQuery().getFrom().getId() : update.getMessage().getFrom().getId();
 
         if (sessions == null) {
             sessions = new ConcurrentHashMap();

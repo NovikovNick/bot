@@ -17,8 +17,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -27,6 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Slf4j
@@ -62,11 +65,44 @@ public class ScheduleAction implements TelegramAction {
 
         List<ActivityCategory> categories = actionCategoryService.get();
 
+        String greeting = messageSource.getMessage("schedule.greetings",
+            new Object[]{contact.getFirstName()},
+            Locale.getDefault());
 
         SendMessage message = new SendMessage();
         message.enableMarkdown(true);
         message.setChatId(update.getMessage().getChatId());
-        message.setText("ScheduleAction");
+        message.setText(greeting);
+
+
+
+
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+
+        categories.stream().forEach(category -> {
+
+            List<InlineKeyboardButton> rowInline = new ArrayList<>();
+            rowInline.add(new InlineKeyboardButton().setText(category.getName()).setCallbackData(category.getId()+""));
+            rowsInline.add(rowInline);
+        });
+
+        {
+            List<InlineKeyboardButton> rowInline = new ArrayList<>();
+
+            rowInline.add(new InlineKeyboardButton().setText("<-").setCallbackData("undo"));
+            rowInline.add(new InlineKeyboardButton().setText("->").setCallbackData("redo"));
+            rowsInline.add(rowInline);
+        }
+
+        markupInline.setKeyboard(rowsInline);
+        message.setReplyMarkup(markupInline);
+
+
+
+
+
 
 
 
@@ -142,7 +178,7 @@ public class ScheduleAction implements TelegramAction {
 
         ((TelegramBot) bot).getSession(update).getData().put("scheduler_flow", flow);
 
-        setButtons(categories, message);
+        //setButtons(categories, message);
 
         try {
 
@@ -163,6 +199,7 @@ public class ScheduleAction implements TelegramAction {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
 
         List<KeyboardRow> keyboard = new ArrayList<>();
+
 
 
         categories.forEach(category -> {

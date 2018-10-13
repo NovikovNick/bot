@@ -2,6 +2,7 @@ package com.metalheart.bot.flow;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Data
-public class Flow {
+public class Flow implements Serializable {
 
     public static final State STATE_START = new State("START");
     public static final State STATE_END = new State("END");

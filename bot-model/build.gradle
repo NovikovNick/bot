@@ -43,8 +43,9 @@ jooq {
     bot(sourceSets.main) {
         jdbc {
             driver = 'org.postgresql.Driver'
-            url = 'jdbc:postgresql://localhost:5432/docker'
-            user = 'docker'
+            url = 'jdbc:postgresql://localhost:5432/bot'
+            user = 'metalheart'
+            password = 'metalheart'
         }
         generator {
             name = 'org.jooq.util.DefaultGenerator'
@@ -69,6 +70,9 @@ jooq {
 
 
 flyway {
-    url = 'jdbc:postgresql://localhost:5432/docker'
-    user = 'docker'
+    user = 'metalheart'
+    password = 'metalheart'
+    url = 'jdbc:postgresql://localhost:5432/bot'
+    schemas = ['public']
+    cleanDisabled = false
 }

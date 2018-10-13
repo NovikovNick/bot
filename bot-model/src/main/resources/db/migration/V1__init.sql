@@ -1,3 +1,6 @@
+-- ----------------------------------------------------------------------------
+-- Table: activity_category
+-- ----------------------------------------------------------------------------
 CREATE TABLE activity_category(
     id                    SERIAL PRIMARY KEY NOT NULL,
     name                  varchar(100)
@@ -20,9 +23,8 @@ CREATE TABLE activity_log(
     contact_id            INTEGER NOT NULL
 );
 
-ALTER TABLE public.activity_log
-ADD CONSTRAINT activity_log_activity_category_id_fk
-FOREIGN KEY (activity_category_id) REFERENCES activity_category (id);
+ALTER TABLE activity_log
+ADD CONSTRAINT activity_log_activity_category_id_fk FOREIGN KEY (activity_category_id) REFERENCES activity_category (id);
 
 CREATE TABLE contact(
     id                    INTEGER PRIMARY KEY NOT NULL,
@@ -31,12 +33,12 @@ CREATE TABLE contact(
     last_name             varchar(100)
 );
 
-ALTER TABLE public.activity_log
-ADD CONSTRAINT activity_log_contact_id_fk
-FOREIGN KEY (contact_id) REFERENCES contact (id);
+ALTER TABLE activity_log ADD CONSTRAINT activity_log_contact_id_fk FOREIGN KEY (contact_id) REFERENCES contact (id);
 
 
 
+
+--CREATE INDEX ...
 
 
 

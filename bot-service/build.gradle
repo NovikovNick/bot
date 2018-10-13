@@ -2,6 +2,13 @@ dependencies {
     compile project(":bot-repository")
     compile project(":bot-log")
 
+    compile group: 'org.hibernate', name: 'hibernate-validator', version: '6.0.13.Final'
+
     compile("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
 
+    compile "org.springframework.boot:spring-boot-configuration-processor:$springBootVersion"
+
+    testCompile group: "org.springframework.boot", name: "spring-boot-starter-test", version:"$springBootVersion"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'com.h2database:h2:1.4.194'
 }

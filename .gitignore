@@ -12,6 +12,8 @@ web-app/WEB-INF/classes
 .factorypath
 .springBeans
 .gradle
+gradle
 
 docker/*.jar
 docker/*.jar.original
+docker/application.yml
